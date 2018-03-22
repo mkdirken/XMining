@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="tr">{% load static %}{% load defs %}
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Bitfindeks Mining</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{% static 'css/bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fontastic.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
+    <link rel="stylesheet" href="{% static 'css/style.default.css' %}" id="theme-stylesheet">
+    <link rel="stylesheet" href="{% static 'css/sweetalert2.min.css' %}" id="theme-stylesheet">
+    <link rel="stylesheet" href="{% static 'css/customapp.css' %}" id="theme-stylesheet">
+    <link rel="stylesheet" href="{% static 'css/jquery.dataTables.min.css' %}" id="theme-stylesheet">
+     <link rel="shortcut icon" href="{% static 'img/favicon/btc.ico' %}">
+  </head>
+  <body>
+<div class="loader"></div>
+    <div class="page">
+      <header class="header">
+        <nav class="navbar">
+          <div class="container-fluid">
+            <div class="navbar-holder d-flex align-items-center justify-content-between">
+              <div class="navbar-header">
+                <a href="{% url 'app:index' %}" class="navbar-brand">
+                  <div class="brand-text brand-big"><strong>bitfindeks</strong>Mining</div>
+                  <div class="brand-text brand-small"><strong>BFM</strong></div></a>
+                <a id="toggle-btn" href="#" class="menu-btn active"><span></span><span></span><span></span></a>
+              </div>
+              <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
+                  <!-- Logout    -->
+                <li class="nav-item"><a href="{% url 'app:logout' %}" class="nav-link logout">Çıkış<i class="fa fa-sign-out"></i></a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <div class="page-content d-flex align-items-stretch">
+        <!-- NAV -->
+          {% include 'app/base/nav.html' %}
+        <!-- SON NAV -->
+        <div class="content-inner">
+          <!-- Page Header-->
+          <header class="page-header">
+            <div class="container-fluid">
+              <div class="no-margin-bottom">
+
+                   <div class="row">
+
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <div class="statistic d-flex align-items-center bg-white has-shadow">
+                            <div class="icon bg-green"><i class="fa fa-money"></i></div>
+                            <div class="text"><strong class="tl-maskla" id="hesap" hesap="{{ request.user.hesap }}">{{ request.user.hesap }}</strong><br><small>Cüzdan</small></div>
+                          </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <div class="statistic d-flex align-items-center bg-white has-shadow">
+                            <div class="icon bg-gray"><img src="{% static 'img/icon/BTC.png' %}" width="32px" height="32px"/></div>
+                            <div class="text"><strong id="hesaptobtc">0</strong><br><small>BTC Cüzdanı</small></div>
+                          </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-3">
+                       <div class="statistic d-flex align-items-center bg-white has-shadow">
+                                    <div class="icon bg-green"><i class="fa fa-line-chart"></i></div>
+                                    <div class="text"><strong>{{ cihaz_istatistik.active_hash }}</strong><br><small>{{ cihaz_istatistik.active_hash_name }}</small></div>
+                                  </div>
+                    </div>
+
+                       <div class="col-12 col-sm-6 col-md-3">
+                        <div class="statistic d-flex align-items-center bg-white has-shadow">
+                            <div class="icon bg-green"><i class="fa fa-tasks"></i></div>
+                            <div class="text"><strong>{{ cihaz_istatistik.active_machine }}</strong><br><small>Aktif Cihaz Sayısı</small></div>
+                          </div>
+                    </div>
+
+
+
+
+
+                </div>
+<hr color="#2f333e"/>
+                  <div class="row">
+                      <div class="col-6 col-sm-3"><img width="24px" height="24px" src="{% static 'img/icon/BTC.png' %}" alt="btc icon" ><b>BTC</b> : <span class="tl-mask" id="btc">Yükleniyor</span> </div>
+                      <div class="col-6 col-sm-3"><img width="24px" height="24px" src="{% static 'img/icon/ETH.png' %}" alt="ETH icon" ><b>ETH</b> :<span class="tl-mask" id="eth">Yükleniyor</span> </div>
+                      <div class="col-6 col-sm-3"><img width="24px" height="24px" src="{% static 'img/icon/LTC.png' %}" alt="LTC icon" ><b>LTC </b>: <span class="tl-mask" id="ltc">Yükleniyor</span></div>
+                      <div class="col-6 col-sm-3"><img width="24px" height="24px" src="{% static 'img/icon/XRP.png' %}" alt="XRP icon" ><b>XRP </b>: <span class="tl-mask" id="xrp">Yükleniyor</span> </div>
+                  </div>
+
+
+              </div>
+            </div>
+          </header>
+          <!-- İÇERİK -->
+            <div class="icerik">
+            {% block body %} {% endblock %}
+            </div>
+          <!-- SON İÇERİK -->
+
+
+
+          <!-- Footer-->
+          <footer class="main-footer">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-sm-6">
+                  <p>Create By 10UR YAZILIM</p>
+                </div>
+                <div class="col-sm-6 text-right">
+                  <p>&copy; 2018 Tüm Hakları Saklıdır</p>
+                </div>
+              </div>
+            </div>
+          </footer>
+            <!-- SON FOOTER -->
+        </div>
+      </div>
+    </div>
+    <!-- JavaScript files-->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"> </script>
+    <script src="{% static 'js/bootstrap4.min.js' %}"></script>
+    <script src="{% static 'js/jquery.mask.min.js' %}"></script>
+    <script src="{% static 'js/jquery.cookie.js' %}"> </script>
+    <script src="{% static 'js/jquery.validate.min.js' %}"></script>
+    <script src="{% static 'js/sweetalert.min.js' %}"></script>
+    <script src="{% static 'js/front.js' %}"></script>
+    <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+
+    <script src="{% static 'js/customapp.js' %}"></script>
+  </body>
+</html>

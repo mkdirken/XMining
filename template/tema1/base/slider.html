@@ -1,0 +1,23 @@
+{% load static %}
+<header id="landioCarousel" class="carousel carousel-header slide bg-inverse" data-ride="carousel" data-interval="0" role="banner">
+      <ol class="carousel-indicators">
+        <li data-target="#landioCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#landioCarousel" data-slide-to="1"></li>
+        <li data-target="#landioCarousel" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner" role="listbox">
+        <div class="carousel-item active" style="background-image: url({% static 'img/slider/btc2.jpg' %});">
+          <div class="carousel-caption">
+          </div>
+        </div>
+        <div class="carousel-item" style="background-image: url({% static 'img/slider/btc1.jpg' %});">
+          <div class="carousel-caption">
+          </div>
+        </div>
+        <div class="carousel-item" style="background-image: url({% static 'img/slider/btc.jpg' %});">
+          <div class="carousel-caption">
+          </div>
+        </div>
+
+      </div>
+    </header>

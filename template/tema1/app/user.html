@@ -1,0 +1,173 @@
+{% extends 'app/base/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block body %}
+<div class="col-xl-12">
+<div class="container">
+                  <div class="client card">
+                    <div class="card-close">
+
+                    </div>
+                    <div class="card-body text-center">
+                      <div class="client-avatar"><img width="80px" height="80px" src="{{ request.user.avatar.url }}" alt="{{ request.user.get_full_name }}" class="img-fluid rounded-circle">
+                        <div class="status bg-green"></div>
+                      </div>
+                      <div class="client-title">
+                        <h3>{{ request.user.get_full_name }}</h3><span>{{ request.user.tel }}</span>
+                          <div class="upload-btn-wrapper">
+                          <button class="btn btn-success btn-sm">Fotoğrafı Güncelle</button>
+                              <form action="#" method="POST" id="change_avatar_form" enctype="multipart/form-data">
+                                  {% csrf_token %}
+                                    <input type="file" name="avatar" accept="image/x-png,image/gif,image/jpeg" onchange="change_avatar()"/>
+                              </form>
+                        </div>
+                      </div>
+
+                      <div class="client-social d-flex justify-content-between text-left">
+                          <div class="container-fluid">
+                              <div class="row">
+                              <form action="#" id="update_user_form" method="POST" onsubmit="user_update();return false;">
+                                  {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label">Adınız</label>
+                                          <input type="text" placeholder="Adınız" name="first_name" class="form-control" value="{{ request.user.first_name }}">
+                                        </div>
+                                    </div>
+                                   <div class="col-sm-12 col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Soyadınız</label>
+                                      <input type="text" placeholder="Soyadınız" name="last_name" class="form-control" value="{{ request.user.last_name }}">
+                                    </div>
+                                   </div>
+                                </div>
+                              <div class="row">
+                                 <div class="col-sm-12 col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">T.C Kimlik Numarası</label>
+                                      <input type="text" placeholder="T.C Kimlik Numarası" name="tc_no" class="form-control" value="{{ request.user.tc_no }}">
+                                    </div>
+                                   </div>
+                                  <div class="col-sm-12 col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Email</label>
+                                      <input type="email" placeholder="E-Mail" class="form-control" name="email" value="{{ request.user.email }}">
+                                    </div>
+                                   </div>
+
+
+                                   <div class="col-sm-12 col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Banka Adı</label>
+                                      <input type="text" placeholder="Banka Adı" name="bankName" class="form-control" value="{{ request.user.bankName }}">
+                                    </div>
+                                   </div>
+
+                                   <div class="col-sm-12 col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">İban Numarası</label>
+                                      <input type="text" placeholder="TR00 0000 0000 0000 0000 00" name="iban" class="iban form-control" value="{{ request.user.iban }}">
+                                    </div>
+                                   </div>
+
+
+
+                                  <div class="col-md-8 hidden-md hidden-lg">
+                                   </div>
+                                  <div class="col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <button type="submit" id="profil_guncelle_buton" class="btn btn-primary btn-block" >Profili Güncelle</button>
+                                    </div>
+                                   </div>
+                              </div>
+
+                          </form>
+                            </div>
+<br/><br/>
+
+
+                              <form id="cep_guncelle_form" method="POST" onsubmit="cep_guncelle();return false;" action="#">
+                                  {% csrf_token %}
+                                  <div class="row">
+                                      <div class="col-sm-12 col-md-3">
+                                        <div class="form-group">
+                                            <label class="form-control-label">&nbsp;</label>
+                                            <a class="btn btn-dark btn-block text-light" id="request_code" onclick="request_code();return false;">Kod Gönder</a>
+                                        </div>
+                                       </div>
+                                      <div class="col-sm-12 col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-control-label">Onay Kodu</label>
+                                          <input type="number" onkeypress="return rakamKontrol(event)" placeholder="12345" name="code" class="form-control">
+                                        </div>
+                                       </div>
+
+                                      <div class="col-sm-12 col-md-5">
+                                        <div class="form-group">
+                                            <label class="form-control-label">Yeni Cep Telefonu</label>
+                                          <input type="text" placeholder="(000) 000 00 00" name="tel" class="form-control cep_tel" value="">
+                                        </div>
+                                       </div>
+
+                                      <div class="col-md-8 hidden-md hidden-lg">
+                                         <span class="code_mesaj"> Kod iste butonuna basın ve telefonunuza gelen kodu Onay kodu alanına yazın</span>
+                                       </div>
+                                      <div class="col-md-4 col-sm-12">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-dark btn-block" id="cep_guncelle_buton">Cep Telefonunu Güncelle</button>
+                                        </div>
+                                       </div>
+
+                                   </div>
+                                </form>
+
+
+
+<br/><br/>
+
+                              <!-- Şifre Güncelleme -->
+
+                              <form action="#" method="POST" id="update_password_form" onsubmit="update_password();return false;">
+                                  {% csrf_token %}
+                              <div class="row">
+                                  <div class="col-sm-12 col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-control-label">Eski Şifreniz</label>
+                                          <input type="password" name="password" placeholder="Eski Şifre" class="form-control">
+                                        </div>
+                                    </div>
+                                   <div class="col-sm-12 col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-control-label">Yeni Şifreniz</label>
+                                          <input type="password" name="new_password" placeholder="Yeni Şifre" class="form-control">
+                                        </div>
+                                    </div>
+                                   <div class="col-sm-12 col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-control-label">Tekrar Yeni Şifreniz</label>
+                                          <input type="password" name="new_password2" placeholder="Tekrar Yeni Şifre" class="form-control">
+                                        </div>
+                                    </div>
+
+                                  <div class="col-md-8 hidden-md hidden-lg">
+                                   </div>
+                                  <div class="col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-danger btn-block" id="sifre_guncelle_buton">Şifreyi Güncelle</button>
+                                    </div>
+                                   </div>
+                              </div>
+                              </form>
+                              <!-- Son Şifre Güncelleme -->
+                      </div>
+
+
+
+
+                      </div>
+                    </div>
+                  </div>
+</div>
+</div>
+{% endblock %}

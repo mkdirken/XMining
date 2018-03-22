@@ -1,0 +1,98 @@
+{% extends 'app/base/base.html' %}
+{% load static %}{% load defs %}
+{% block body %}
+<div class="container">
+<div class="row">
+
+<div class="col-12 col-lg-6">
+<div class="articles card">
+<div class="card-header d-flex align-items-center">
+  <h2 class="h3">Cihazlarım <small> [ {{ active_count|topla:pas_count }} Adet ]</small> </h2>
+</div>
+<div class="card-body">
+
+{% if active_count > 0 %}
+    <p class="text-center"><h5>AKTİF CİHAZLARIM <small>[ {{ cihaz_istatistik.active_machine }} Adet ]</small></h5></p>
+    <hr/>
+
+    {% for machine in active_machines %}
+        {% if machine.active == True %}
+            <div class="item d-flex align-items-center">
+                <div class="image"><img src="/media/{{ machine.image }}" alt="" class="img-fluid" width="64px" height="64px"></div>
+                <div class="text">
+                    <h3 class="h5"><b>{{ machine.model }}</b></h3><small><b>Hash Rate : {{ machine.miner_power }} {{ machine.miner_power_rate }}/s</b></small>
+                </div>
+              </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+
+{% if pas_count > 0 %}
+<p class="text-center"><h5>KURULUMDAKİ CİHAZLARIM <small>[ {{ pas_count }} Adet ]</small></h5></p>
+    <hr/>
+
+    {% for machine in pas_machines %}
+            <div class="item d-flex align-items-center">
+                <div class="image"><img src="/media/{{ machine.image }}" alt="" class="img-fluid" width="64px" height="64px"></div>
+                <div class="text">
+                    <h3 class="h5"><b>{{ machine.model }}</b></h3><small><b>Hash Rate : {{ machine.miner_power }} {{ machine.miner_power_rate }}/s</b></small>
+                </div>
+              </div>
+
+    {% endfor %}
+{% endif %}
+
+
+{% if onar_count > 0 %}
+<p class="text-center"><h5>ONARIMDAKİ CİHAZLARIM <small>[ {{ onar_count }} Adet ]</small></h5></p>
+    <hr/>
+
+    {% for machine in onarim_machines %}
+            <div class="item d-flex align-items-center">
+                <div class="image"><img src="/media/{{ machine.image }}" alt="" class="img-fluid" width="64px" height="64px"></div>
+                <div class="text">
+                    <h3 class="h5"><b>{{ machine.model }}</b></h3><small><b>Hash Rate : {{ machine.miner_power }} {{ machine.miner_power_rate }}/s</b></small>
+                </div>
+              </div>
+
+    {% endfor %}
+{% endif %}
+
+
+</div>
+</div>
+
+</div>
+
+<div class="col-12 col-lg-6">
+<div class="recent-activities card">
+<div class="card-header">
+  <h3 class="h4">Duyurular</h3>
+</div>
+<div class="card-body no-padding">
+    {% for haber in haberler %}
+      <div class="item">
+        <div class="row">
+          <div class="col-12 col-sm-3 date-holder text-right">
+            <div class="icon"><i class="icon-clock"></i></div>
+            <div class="date"> <span>{{ haber.date|timesince }} Önce</span></div>
+          </div>
+          <div class="col-12 col-sm-9 content">
+            <h5>{{ haber.title }}</h5>
+            <p>{{ haber.post|linebreaks }}</p>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+
+{% endblock %}

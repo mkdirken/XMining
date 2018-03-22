@@ -1,0 +1,98 @@
+{% extends 'app/base/base.html' %}
+{% load static %}
+{% block body %}
+<div class="container">
+    <div class="row">
+
+        <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Not </h5>
+                    <hr />
+                  <p class="card-text">
+
+                       <small>* Ortalama Günlük Kazanca Cihaz Giderleri Dahil Değildir !<br/>
+                           * Satın Aldığınız Cihazların 1 Hafta Tedarik Süresi Bulunmaktadır Bu Yüzden Cihazlarınız 1 Hafta Sonra Üretime Başlayacaktır.
+                           Cihaz Alımı Ve Son Kullanım Süresine 1 Hafta Eklenecektir.
+                       </small>
+
+                  </p>
+              </div>
+             </div>
+        </div>
+
+    {% csrf_token %}
+        {% for machine in machines %}
+            <div class=" col-12 col-md-4 col-lg-4">
+            <div class="card">
+              <img class="card-img-top" src="{{ machine.image.url }}" alt="{{ machine.model }}">
+              <div class="card-body">
+                <h5 class="card-title">{{ machine.model }}</h5>
+                    <hr />
+                  <p class="card-text">
+                  <span><b>Hash Rate : </b>{{ machine.miner_power }} {{ machine.miner_power_rate }}/s</span><br/>
+                      <span><b>Garanti Süresi : </b>{{ machine.warranty }}</span><br/>
+                      <span><b>Kullanım Ömrü : </b>{{ machine.lifetime }} Yıl</span><br/>
+                      <span><b>Ortalama Günlük Kazanç : </b>{{ machine.Ortalama }} ₺</span><br/>
+                  <span><b>Fiyat : </b><span class="machine_fiyat">{{ machine.fiyat }}</span></span><br />
+
+
+
+                  </p>
+                <div class="row">
+                <div class="col-6">
+                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#machine{{ machine.id }}">Özellikler</button>
+                </div>
+                <div class="col-6">
+                    <button type="button" class="btn btn-success btn-block satin_al_buton" fiyat="{{ machine.fiyat }}" name="{{ machine.model }}" onclick="satin_al(this,{{ machine.id }})">Satın Al</button>
+                </div>
+                </div>
+
+              </div>
+            </div>
+            </div>
+
+        {% endfor %}
+    </div>
+</div>
+
+
+
+
+
+
+<!-- Modal -->
+    {% for machine in machines %}
+        <div class="modal fade" id="machine{{ machine.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{ machine.model }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+
+                {{ machine.properties|linebreaks }}
+                  <hr />
+                  <span><b>Hash Rate : </b>{{ machine.miner_power }} {{ machine.miner_power_rate }}/s</span><br/>
+                  <span><b>Garanti Süresi : </b>{{ machine.warranty }}</span><br/>
+                  <span><b>Kullanım Ömrü : </b>{{ machine.lifetime }} Yıl</span><br/>
+                  <span><b>Ortalama Günlük Kazanç : </b>{{ machine.Ortalama }} ₺</span><br/>
+                  <span><b>Fiyat : </b><span class="machine_fiyat">{{ machine.fiyat }}</span></span>
+                  <br />
+                <small>* Ortalama Günlük Kazanca Cihaz Giderleri Dahil Değildir !<br/>
+                           * Satın Aldığınız Cihazların 1 Hafta Tedarik Süresi Bulunmaktadır Bu Yüzden Cihazlarınız 1 Hafta Sonra Üretime Başlayacaktır.
+                           Cihaz Alımı Ve Son Kullanım Süresine 1 Hafta Eklenecektir.
+                       </small>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    {% endfor %}
+
+{% endblock %}

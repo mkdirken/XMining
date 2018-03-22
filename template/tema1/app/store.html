@@ -1,0 +1,61 @@
+{% extends 'app/base/base.html' %}
+{% block body %}
+    {% load defs %}
+<div class="col-12">
+                  <div class="card">
+                    <div class="card-close">
+
+                    </div>
+                    <div class="card-header d-flex align-items-center">
+                      <h3 class="h4">Cihazlarım</h3>
+                    </div>
+                    <div class="card-body">
+                      <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                          <thead>
+                            <tr>
+                              <th>Sıra</th>
+                              <th>Model</th>
+                              <th>Kazım Gücü</th>
+                              <th>Son Kullanım Süresi</th>
+                              <th>Durum</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+
+                            {% with sira=0 %}
+                              {% for usermachine in usermachines %}
+                                  {% sirarti sira as sira %}
+
+                                  {%  if usermachine.active == 0 %}
+                                         <tr class="table-light">
+                                   {% elif usermachine.machine_dead >= zaman %}
+                                         <tr class="table-success">
+                                   {% else %}
+                                         <tr class="table-danger">
+                                   {% endif %}
+
+                                      <th scope="row">{{ sira }}</th>
+                                      <td>{{ usermachine.model }}</td>
+                                      <td>{{ usermachine.miner_power }} {{ usermachine.miner_power_rate }}/s</td>
+                                      <td>{{ usermachine.machine_dead}}</td>
+                                      {%  if usermachine.active == 0 %}
+                                            <td>TEDARİK/KURULUM/ONARIM</td>
+                                       {% elif usermachine.machine_dead >= zaman %}
+                                             <td>AKTİF</td>
+                                       {% else %}
+                                           <td>KULLANIM SÜRESİ DOLMUŞ</td>
+                                       {% endif %}
+
+                                  </tr>
+
+                              {% endfor %}
+                            {% endwith %}
+
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+{% endblock %}

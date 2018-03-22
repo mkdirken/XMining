@@ -1,0 +1,219 @@
+
+{% load static %}
+ <nav class="navbar navbar-dark bg-inverse bg-inverse-custom navbar-fixed-top  ">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+            <span><img src="{% static 'img/bitfindeks-mining.png' %}" width="250px" height="50px"></img></span>
+        </a>
+        <a class="navbar-toggler hidden-md-up pull-xs-right" data-toggle="collapse" href="#collapsingNavbar" aria-expanded="false" aria-controls="collapsingNavbar">
+        &#9776;
+        </a>
+        <a class="navbar-toggler navbar-toggler-custom hidden-md-up pull-xs-right" data-toggle="collapse" href="#collapsingMobileUser" aria-expanded="false" aria-controls="collapsingMobileUser">
+          <span class="icon-user"></span>
+        </a>
+        <div id="collapsingNavbar" class="collapse navbar-toggleable-custom" role="tabpanel" aria-labelledby="collapsingNavbar">
+          <ul class="nav navbar-nav pull-xs-right">
+            <li class="nav-item nav-item-toggable active">
+              <a class="nav-link" href="{% url 'home' %}">AnaSayfa</a>
+            </li>
+
+            <li class="nav-item nav-item-toggable active">
+              <a class="nav-link" href="#about">Hakkımızda</a>
+            </li>
+
+            <li class="nav-item nav-item-toggable active">
+              <a class="nav-link" href="http:\\www.bitfindeks.com" target="_blank">Bitfindeks</a>
+            </li>
+
+          <li class="nav-item nav-item-toggable active">
+              <a class="nav-link" href="#sell">Cihazlar</a>
+            </li>
+
+            <li class="nav-item nav-item-toggable active">
+              <a class="nav-link" href="#contact">Bize Ulaşın</a>
+            </li>
+
+
+
+
+            <li class="nav-item dropdown hidden-sm-down textselect-off">
+              <a class="nav-link dropdown-toggle nav-dropdown-user" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                 {% if request.user.is_authenticated %}
+                     <img src="{{ request.user.avatar.url }}" height="40" width="40" alt="Avatar" class="img-circle">
+                 {% else %}
+                     <img src="{% static 'img/user.png' %}" height="40" width="40" alt="Avatar" class="img-circle">
+                 {% endif %}
+              </a>
+              <div class="menu-hover dropdown-menu dropdown-menu-right dropdown-menu-user dropdown-menu-animated" aria-labelledby="dropdownMenu2">
+
+                  {% if request.user.is_authenticated %}
+                      {#  OTURUM AÇIK #}
+                          <div class="media">
+                              <div class="media-left">
+                                <img src="{{ request.user.avatar.url }}" height="60" width="60" alt="Avatar" class="img-circle">
+                              </div>
+                              <div class="media-body media-middle">
+                                <h5 class="media-heading">{{ request.user.get_full_name }}</h5>
+                                <h6>{{ request.user.tel }}</h6>
+                              </div>
+                            </div>
+                            <a href="{% url 'app:user' %}" class="dropdown-item ">Profili Gör</a>
+                            <a href="{% url 'app:market' %}" class="dropdown-item ">Satın Al(Market)</a>
+                            <a href="{% url 'app:store' %}" class="dropdown-item ">Cihazlarım</a>
+                            <a href="{% url 'app:log' %}" class="dropdown-item ">Log Kayıtlarım</a>
+                      <a href="{% url 'app:logout' %}" class="dropdown-item text-uppercase text-danger">Çıkış Yap</a>
+                        {#  OTURUM AÇIK #}
+                  {% else %}
+
+                                <div class="text-center"><h3><b>Oturum Aç</b></h3></div>
+                                <form id="oturum_ac_formu" method="post" onsubmit="login('tablet+');return false;">
+                                {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="username">Kullanıcı Adı</label>
+                                        <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Kullanıcı Adı" value="" autocomplete="off">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="password">Şifre</label>
+                                        <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Şifre" autocomplete="off">
+                                    </div>
+                                    <div class="form-group">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="submit" id="giris_buton1" class="buton btn btn-success btn-block" value="Giriş Yap">
+                                       <button type="button" class="buton btn btn-primary btn-block" data-toggle="modal" data-target="#kayit_modal">Kayıt Ol</button>
+                                    </div>
+
+                                </form>
+
+
+                  {% endif %}
+
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div id="collapsingMobileUser" class="collapse navbar-toggleable-custom dropdown-menu-custom p-x-1 hidden-md-up upper" role="tabpanel" aria-labelledby="collapsingMobileUser">
+        <div class="media m-t-1">
+            <div class="media-left">
+             {% if request.user.is_authenticated %}
+                     <img src="{{ request.user.avatar.url }}" height="40" width="40" alt="Avatar" class="img-circle">
+                 {% endif %}
+            </div>
+        {% if request.user.is_authenticated %}
+            <div class="media-body media-middle">
+              <h5 class="media-heading">{{ request.user.get_full_name }}</h5>
+            <h6>{{ request.user.tel }}</h6>
+            </div>
+          </div>
+          <a href="{% url 'app:user' %}" class="dropdown-item ">Profili Gör</a>
+          <a href="{% url 'app:market' %}" class="dropdown-item ">Satın Al(Market)</a>
+          <a href="{% url 'app:store' %}" class="dropdown-item ">Cihazlarım</a>
+          <a href="{% url 'app:log' %}" class="dropdown-item ">Log Kayıtlarım</a>
+          <a href="{% url 'app:logout' %}" class="dropdown-item text-uppercase text-danger">Çıkış Yap</a>
+
+
+         {% else %}
+            <form id="oturum_ac_formu2" method="post" onsubmit="login('mobil');return false;">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="username">Kullanıcı Adı</label>
+                    <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Kullanıcı Adı" value="" autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Şifre</label>
+                    <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Şifre" autocomplete="off">
+                </div>
+                <div class="form-group">
+                </div>
+                <div class="form-group">
+                    <input type="submit" id="giris_buton2" class="buton btn btn-success btn-block" value="Giriş Yap">
+                   <button type="button" class="buton btn btn-primary btn-block" data-toggle="modal" data-target="#kayit_modal">Kayıt Ol</button>
+                </div>
+            </form>
+
+        {% endif %}
+        </div>
+      </div>
+    </nav>
+
+<!-- Modal -->
+<div class="modal fade"  id="kayit_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Kayıt Ol</h4>
+      </div>
+                <form id="kayit_ol_form" action="#" method="POST" onsubmit="register();return false;">
+                    {% csrf_token %}
+                           <div class="col-xs-12 col-lg-6">
+                               <label for="name" class="control-label">Adınız</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                                    <input type="text" class="form-control" name="first_name" id="name"  placeholder="Adınızı Giriniz.">
+                                </div>
+                           </div>
+                       <div class="col-xs-12 col-lg-6">
+                           <label for="surname" class="control-label">Soyadınız</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                                <input type="text" class="form-control" name="last_name" id="surname" class="form-control" placeholder="Soyadınızı Giriniz">
+                            </div>
+                       </div>
+
+                       <div class="col-xs-12 col-lg-6">
+                           <label for="tel" class="control-label">İrtibat No(Cep)</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-phone fa" aria-hidden="true"></i></span>
+                                <input type="tel" class="form-control ceptel" name="tel" id="tel" placeholder="Numaranızı Giriniz.">
+                            </div>
+                      </div>
+
+
+                       <div class="col-xs-12 col-lg-6">
+                           <label for="email" class="control-label">E-Mail</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-mail-forward fa" aria-hidden="true"></i></span>
+                                <input type="text" class="form-control" name="email" id="email" placeholder="Mail Adresinizi Giriniz.">
+                            </div>
+                        </div>
+
+
+                       <div class="col-xs-12">
+                           <label for="username" class="control-label">Kullanıcı Adı</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                                <input type="text" class="form-control" name="username" id="username" placeholder="Kullanıcı Adınızı Giriniz.">
+                            </div>
+                       </div>
+
+
+                       <div class="col-xs-12 col-lg-6">
+                           <label for="sifre" class="control-label">Şifre</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-lock fa" aria-hidden="true"></i></span>
+                                <input type="password" class="form-control" name="password" id="sifre" placeholder="Şifre Giriniz.">
+                            </div>
+                       </div>
+
+
+                       <div class="col-xs-12 col-lg-6">
+                            <label for="sifre" class="control-label">Şifre(Tekrar)</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-lock fa" aria-hidden="true"></i></span>
+                                <input type="password" class="form-control" name="password2" id="sifre" placeholder="Şifreyi Tekrar Giriniz.">
+                            </div>
+                       </div>
+
+                          <div class="col-xs-12">&nbsp;</div>
+                      <div class="modal-footer">
+                        <button type="submit" id="kayit_ol_buton" class="buton btn-block btn btn-primary">Kayit Ol</button>
+                     </div>
+            </form>
+    </div>
+  </div>
+</div>
+
