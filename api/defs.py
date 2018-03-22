@@ -4,9 +4,9 @@ import json
 def send_sms(message, phones):
 
   sms_msg = {
-    'username' : '908505328895', # https://oim.verimor.com.tr/sms_settings/edit adresinden öğrenebilirsiniz.
-    'password' : 'BitfindeksCoinet8895', # https://oim.verimor.com.tr/sms_settings/edit adresinden belirlemeniz gerekir.
-    'source_addr' : "Coinet", # Gönderici başlığı, https://oim.verimor.com.tr/headers adresinde onaylanmış olmalı, değilse 400 hatası alırsınız.
+    'username' : '##########', # https://oim.verimor.com.tr/sms_settings/edit adresinden öğrenebilirsiniz.
+    'password' : '###########', # https://oim.verimor.com.tr/sms_settings/edit adresinden belirlemeniz gerekir.
+    'source_addr' : "##########", # Gönderici başlığı, https://oim.verimor.com.tr/headers adresinde onaylanmış olmalı, değilse 400 hatası alırsınız.
     'messages' : [
       {'msg': message, 'dest': phones}
     ]
